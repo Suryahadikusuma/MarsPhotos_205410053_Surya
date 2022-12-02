@@ -1,0 +1,55 @@
+/*
+ * Copyright (C) 2021 The Android Open Source Project.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.android.marsphotos.overview
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.example.android.marsphotos.databinding.FragmentOverviewBinding
+
+/**
+ * Fragmen ini menunjukkan status transaksi layanan web foto Mars.
+ */
+class OverviewFragment : Fragment() {
+
+    private val viewModel: OverviewViewModel by viewModels()
+
+    /**
+     * Inflates layout dengan Data Binding, mengeset pemilik lifecycle untuk OverviewFragment
+     * mengaktifkan Data Binding untuk observe LiveData, dan mengeset RecyclerView dengan adapter.
+     */
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentOverviewBinding.inflate(inflater)
+
+        // untuk memperbolehkan Data Binding untuk Mengamati LiveData dengan lifecycle Fragment ini
+        binding.lifecycleOwner = this
+
+        // memberikan akses dari binding kee OverviewViewModel
+        binding.viewModel = viewModel
+
+        // Mengeset adaptor photosGrid RecyclerView
+        binding.photosGrid.adapter = PhotoGridAdapter()
+
+        return binding.root
+    }
+}
